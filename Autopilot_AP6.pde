@@ -25,7 +25,7 @@
 #include <Kalman2.h>
 #include <Servo.h>
 #include <PID_Beta6.h>
-#include "/home/wilhem/sketchbook/libraries/define_AP6.h"
+#include "/shared/repository/sketchbook/libraries/define_AP6.h"
 
 #define ToDeg(x) (x*57.2957795131)  // * 180/pi
 
