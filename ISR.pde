@@ -182,7 +182,6 @@ ISR(PCINT2_vect){
 
         CH = 2;    // Listen to CH2
 
-        PCMSK2 = 0x00;    // Disable interrupts on this pin
         PCMSK2 |= (1 << PCINT19);     // Enable the interrupts for the next channel
 
       }
@@ -209,7 +208,7 @@ ISR(PCINT2_vect){
 
         CH = 3;    // Listen to CH3
 
-        PCMSK2 = 0x00;    // Disable interrupts on this pin
+        PCMSK2 &= ~(1 << PCINT19);    // Disable interrupts on this pin
         PCMSK2 |= (1 << PCINT20);     // Interrupt für den nächsten Kanal wird nun angeschaltet (Throttle wird aber gesprungen), deshalb => PCINT21 statt PCINT20
       }
       
@@ -235,7 +234,7 @@ ISR(PCINT2_vect){
 
         CH = 4;    // Listen to CH4
 
-        PCMSK2 = 0x00;    // Disable interrupts on this pin
+        PCMSK2 &= ~(1 << PCINT20);    // Disable interrupts on this pin
         PCMSK2 |= (1 << PCINT21);
       }
       
@@ -262,7 +261,7 @@ ISR(PCINT2_vect){
 
         CH = 5;    // Listen to CH5
 
-        PCMSK2 = 0x00;    // Disable interrupts on this pin
+        PCMSK2 &= ~(1 << PCINT21);    // Disable interrupts on this pin
         PCMSK2 |= (1 << PCINT22);     // Enable the interrupts for the next channel
 
       }
@@ -290,7 +289,7 @@ ISR(PCINT2_vect){
 
         CH = 1;    // Listen to CH1
 
-        PCMSK2 = 0x00;    // Disable interrupts on this pin
+        PCMSK2 &= ~(1 << PCINT22);    // Disable interrupts on this pin
         PCMSK2 |= (1 << PCINT18);     // Enable the interrupts for the next channel
 
       }

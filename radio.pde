@@ -1,5 +1,5 @@
 
-void read_radio(){
+void read_radio(void){
   
   radioIn[CH_AIL] = radioIn[CH_AIL] * 0.7 + aileronSignalDiff * 0.3;
   radioIn[CH_ELV] = radioIn[CH_ELV] * 0.7 + elevatorSignalDiff * 0.3;

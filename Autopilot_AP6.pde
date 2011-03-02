@@ -25,7 +25,7 @@
 #include <Kalman2.h>
 #include <Servo.h>
 #include <PID_Beta6.h>
-#include "/shared/repository/sketchbook/libraries/define_AP6.h"
+#include <define_AP6.h>
 
 #define ToDeg(x) (x*57.2957795131)  // * 180/pi
 
@@ -161,11 +161,7 @@ void setup(){
    elevatorServo.attach(elevatorServoPin);
    throttleServo.attach(throttleServoPin);
    rudderServo.attach(rudderServoPin);
-   
-   aileronServo.writeMicroseconds(lengthPulseMed);
-   elevatorServo.writeMicroseconds(lengthPulseMed);
-   rudderServo.writeMicroseconds(lengthPulseMed);
-   
+
    pinMode(ledCalibration, OUTPUT);    // Led on digital pin 13 is used as indicator to show that the calibration is on the way...
    
    analogReference(EXTERNAL);
