@@ -3,9 +3,7 @@
 *    
 *    Davide Picchi
 *    
-*    16 Juli 2010
-*
-*    letztes update: 01 März 2011
+*    Starting date: 16 Juli 2010
 *
 *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 *
