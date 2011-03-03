@@ -1,5 +1,3 @@
-
-
 #if RADIO_TYPE == 0
 
 ISR(PCINT2_vect){
