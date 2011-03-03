@@ -32,26 +32,25 @@ void servo(void){
 
 #if PROCESSING == 0
 
-   if(radioIn[CH_LDG] < 1500){      // smaller than because otherwise the landing gear cannot be used!!
-      
-      if(!pitchPID.GetMode()){
-        pitchPID.SetMode(AUTO);
-      }
+   if(radioIn[CH_LDG] < 1400){
      
-      if(!rollPID.GetMode()){
-        rollPID.SetMode(AUTO);
-      }
+     autoPilot = 1;   
       
-    } else {
+   } else {
      
-      if(pitchPID.GetMode()){
-        pitchPID.SetMode(MANUAL);
-      }
+     autoPilot = 0;
+     
+   }
 
-      if(rollPID.GetMode()){
-        rollPID.SetMode(MANUAL);
-      }
-  }
+   if(autoPilot != pitchPID.GetMode()){
+        (autoPilot == 1)?pitchPID.SetMode(AUTO):pitchPID.SetMode(MANUAL);
+   }
+    
+   if(autoPilot != rollPID.GetMode()){
+     
+        (autoPilot == 1)?rollPID.SetMode(AUTO):rollPID.SetMode(MANUAL);
+           
+   }
   
 #endif
 }

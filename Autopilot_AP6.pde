@@ -81,7 +81,7 @@ volatile unsigned int aileronSignalLength, aileronSignalDiff, elevatorSignalLeng
 volatile unsigned int cnt;
 volatile char CH = 1;           // Erster Kanal, der aus dem Empfänger eingelesen wird
 volatile char FLAG_ail = 0, FLAG_elv = 0, FLAG_thr = 0, FLAG_rud = 0, FLAG_aut = 0;
-
+int autoPilot = 0;
 	
 /********************
 * Variable for angles
