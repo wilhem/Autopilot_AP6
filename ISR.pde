@@ -1,5 +1,3 @@
-
-
 #if RADIO_TYPE == 0
 
 ISR(PCINT2_vect){
@@ -11,8 +9,7 @@ ISR(PCINT2_vect){
     case 1:
       // CH1 is selected Aileron value to be measured
       if((PIND & (1 << PIND2) && (!FLAG_ail))){   // PD2 as Input pin right now...
-      
-        aileronSignalLengthOld = aileronSignalLength;    // save the old value
+
         aileronSignalLength = cnt;
         
         FLAG_ail = 1;
@@ -28,7 +25,6 @@ ISR(PCINT2_vect){
 
         CH = 2;    // Listen to CH2
 
-        PCMSK2 = 0x00;    // Disable interrupts on this pin
         PCMSK2 |= (1 << PCINT20);     // Enable the interrupts for the next channel
 
       }
@@ -39,8 +35,7 @@ ISR(PCINT2_vect){
     case 2:
      // CH2 is selected Elevator value to be measured
       if((PIND & (1 << PIND4) && (!FLAG_elv))){   // PD4 as Input pin right now...
-      
-        elevatorSignalLengthOld = elevatorSignalLength;
+
         elevatorSignalLength = cnt;
         
         FLAG_elv = 1;
@@ -56,7 +51,7 @@ ISR(PCINT2_vect){
 
         CH = 3;    // Listen to CH3
 
-        PCMSK2 = 0x00;    // Disable interrupts on this pin
+        PCMSK2 &= ~(1 << PCINT20);    // Disable interrupts on this pin
         PCMSK2 |= (1 << PCINT19);     // Interrupt für den nächsten Kanal wird nun angeschaltet (Throttle wird aber gesprungen), deshalb => PCINT21 statt PCINT20
       }
       
@@ -66,8 +61,7 @@ ISR(PCINT2_vect){
     case 3:
       // CH3 is selected Throttle value to be measured
       if((PIND & (1 << PIND3) && (!FLAG_thr))){   // PD3 as Input pin right now...
-      
-        throttleSignalLengthOld = throttleSignalLength;
+
         throttleSignalLength = cnt;
         
         FLAG_thr = 1;
@@ -83,7 +77,7 @@ ISR(PCINT2_vect){
 
         CH = 4;    // Listen to CH4
 
-        PCMSK2 = 0x00;    // Disable interrupts on this pin
+        PCMSK2 &= ~(1 << PCINT19);    // Disable interrupts on this pin
         PCMSK2 |= (1 << PCINT21);
       }
       
@@ -94,8 +88,7 @@ ISR(PCINT2_vect){
     case 4:
       // CH4 is selected Rudder value to be measured
       if((PIND & (1 << PIND5) && (!FLAG_rud))){   // PD5 as Input pin right now...
-      
-        rudderSignalLengthOld = rudderSignalLength;
+
         rudderSignalLength = cnt;
         
         FLAG_rud = 1;
@@ -111,7 +104,7 @@ ISR(PCINT2_vect){
 
         CH = 5;    // Listen to CH5
 
-        PCMSK2 = 0x00;    // Disable interrupts on this pin
+        PCMSK2 &= ~(1 << PCINT21);    // Disable interrupts on this pin
         PCMSK2 |= (1 << PCINT22);     // Enable the interrupts for the next channel
 
       }
@@ -138,7 +131,7 @@ ISR(PCINT2_vect){
 
         CH = 1;    // Listen to CH1
 
-        PCMSK2 = 0x00;    // Disable interrupts on this pin
+        PCMSK2 &= ~(1 << PCINT22);    // Disable interrupts on this pin
         PCMSK2 |= (1 << PCINT18);     // Enable the interrupts for the next channel
 
       }
@@ -182,7 +175,6 @@ ISR(PCINT2_vect){
 
         CH = 2;    // Listen to CH2
 
-        PCMSK2 = 0x00;    // Disable interrupts on this pin
         PCMSK2 |= (1 << PCINT19);     // Enable the interrupts for the next channel
 
       }
@@ -209,7 +201,7 @@ ISR(PCINT2_vect){
 
         CH = 3;    // Listen to CH3
 
-        PCMSK2 = 0x00;    // Disable interrupts on this pin
+        PCMSK2 &= ~(1 << PCINT19);    // Disable interrupts on this pin
         PCMSK2 |= (1 << PCINT20);     // Interrupt für den nächsten Kanal wird nun angeschaltet (Throttle wird aber gesprungen), deshalb => PCINT21 statt PCINT20
       }
       
@@ -235,7 +227,7 @@ ISR(PCINT2_vect){
 
         CH = 4;    // Listen to CH4
 
-        PCMSK2 = 0x00;    // Disable interrupts on this pin
+        PCMSK2 &= ~(1 << PCINT20);    // Disable interrupts on this pin
         PCMSK2 |= (1 << PCINT21);
       }
       
@@ -262,7 +254,7 @@ ISR(PCINT2_vect){
 
         CH = 5;    // Listen to CH5
 
-        PCMSK2 = 0x00;    // Disable interrupts on this pin
+        PCMSK2 &= ~(1 << PCINT21);    // Disable interrupts on this pin
         PCMSK2 |= (1 << PCINT22);     // Enable the interrupts for the next channel
 
       }
@@ -290,7 +282,7 @@ ISR(PCINT2_vect){
 
         CH = 1;    // Listen to CH1
 
-        PCMSK2 = 0x00;    // Disable interrupts on this pin
+        PCMSK2 &= ~(1 << PCINT22);    // Disable interrupts on this pin
         PCMSK2 |= (1 << PCINT18);     // Enable the interrupts for the next channel
 
       }

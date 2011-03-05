@@ -2,8 +2,8 @@
 *
 * Autopilot AP6 "Mizard"
 *
-* "Copyright (C) 2011 Davide Picchi" mailto: paveway@gmail.com
-*
+* "Copyright (C) 2011 Davide Picchi"  mailto: paveway@gmail.com
+* 
 * This program is distributed under the terms of the GNU General Public License.
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 * Autopilot AP6 "Mizard" is free software: you can redistribute it and/or modify
@@ -13,11 +13,11 @@
 
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 
 * You should have received a copy of the GNU General Public License
-* along with this program. If not, see <http://www.gnu.org/licenses/>
+* along with this program.  If not, see <http://www.gnu.org/licenses/>
 * (see COPYING file)
 *
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -99,7 +99,7 @@ volatile unsigned int aileronSignalLength, aileronSignalDiff, elevatorSignalLeng
 volatile unsigned int cnt;
 volatile char CH = 1;           // Erster Kanal, der aus dem Empfänger eingelesen wird
 volatile char FLAG_ail = 0, FLAG_elv = 0, FLAG_thr = 0, FLAG_rud = 0, FLAG_aut = 0;
-
+int autoPilot = 0;
 	
 /********************
 * Variable for angles
@@ -179,11 +179,7 @@ void setup(){
    elevatorServo.attach(elevatorServoPin);
    throttleServo.attach(throttleServoPin);
    rudderServo.attach(rudderServoPin);
-   
-   aileronServo.writeMicroseconds(lengthPulseMed);
-   elevatorServo.writeMicroseconds(lengthPulseMed);
-   rudderServo.writeMicroseconds(lengthPulseMed);
-   
+
    pinMode(ledCalibration, OUTPUT);    // Led on digital pin 13 is used as indicator to show that the calibration is on the way...
    
    analogReference(EXTERNAL);
