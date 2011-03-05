@@ -1,23 +1,41 @@
-/*************************************************
-*    Kalman filter Applikation
-*    
-*    Davide Picchi
-*    
-*    16 Juli 2010
+/*******************************************************************************
 *
-*    letztes update: 01 März 2011
+* Autopilot AP6 "Mizard"
 *
-*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+* "Copyright (C) 2011 Davide Picchi" mailto: paveway@gmail.com
 *
-*  Diese Version verwendet PORTD, damit der Empfänger eingelesen wird
-* 
-*  Einsatz: Razor 6DOF + Arduino Nano
+* This program is distributed under the terms of the GNU General Public License.
+* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+* Autopilot AP6 "Mizard" is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>
+* (see COPYING file)
 *
-*  Der Elektriche Motor kann mit diesem Applikation nicht angesteuert werden.
+*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
-*  Diese Version ist bereits zum fliegen...
+* Davide Picchi
+*
+* Starting date: 16 Juli 2010
+*
+*+++++++++++++++++++++++++++++++++++++++++++++++++
+*
+* Diese Version verwendet PORTD, damit der Empfänger eingelesen wird
+*
+* Einsatz: Razor 6DOF + Arduino Nano
+*
+* Diese Version ist bereits zum fliegen...
 *
 *************************************************/
+
 #include <avr/interrupt.h>
 #include <avr/io.h>
 
@@ -25,7 +43,7 @@
 #include <Kalman2.h>
 #include <Servo.h>
 #include <PID_Beta6.h>
-#include "/shared/repository/sketchbook/libraries/define_AP6.h"
+#include <define_AP6.h>
 
 #define ToDeg(x) (x*57.2957795131)  // * 180/pi
 
