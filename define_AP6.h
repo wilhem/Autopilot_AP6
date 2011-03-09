@@ -16,8 +16,8 @@
 #define lengthPulseMax 2100
 #define lengthPulseMed 1400
 // Für die Servos
-#define minPulseServo 650
-#define maxPulseServo 2300
+#define minPulseServo 1100  // 650
+#define maxPulseServo 1900 // 2300
 // Für die Radio
 #define NUM_CHANNEL 5
 #define CH_AIL 0

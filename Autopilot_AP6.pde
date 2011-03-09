@@ -180,19 +180,29 @@ void setup(){
    pinMode(ledCalibration, OUTPUT);    // Led on digital pin 13 is used as indicator to show that the calibration is on the way...
    
    analogReference(EXTERNAL);
+  
+   pitch.init(0.5, 0.2);   // Pass to the the kalman filter the value of the noise from datasheet
+   roll.init(0.5, 0.2);   // Pass to the the kalman filter the value of the noise from datasheet 
+   
+   set_interrupt();   // Erforderlich. Durch diese Funktion die einzelnen Interrupts angeschaltet werden
    
    //************************************************************//
    digitalWrite(ledCalibration, HIGH); // Led on, before the end of the cycle the aircraft must be parallel with the ground to calibrate the sensor                          // 10 sec since now....
      
    delay(6000);
-   
+     
+     for(int j = 0; j < 50; j++){
+       read_radio();
+       delay(20);
+     }
+     
      // Nutze diese Gelegenheit um den Motor zu armen
      for(int j = 0; j < 50; j++){
        throttleServo.writeMicroseconds(minPulseServo);
        delay(20);
      }
      
-     for(int j = 0; j < 50; j++){
+     for(int j = 0; j < 1; j++){
        throttleServo.writeMicroseconds(maxPulseServo);
        delay(20);
      }
@@ -200,22 +210,12 @@ void setup(){
        throttleServo.writeMicroseconds(minPulseServo);
        delay(20);
      }
-     
-     for(int j = 0; j < 50; j++){
-       read_radio();
-       delay(20);
-     }
-     
+
+
    digitalWrite(ledCalibration, LOW);
    //************************************************************//
    
-   calibration();     // Accelerometers and Gyros bias calibration
-  
-   pitch.init(0.5, 0.2);   // Pass to the the kalman filter the value of the noise from datasheet
-   roll.init(0.5, 0.2);   // Pass to the the kalman filter the value of the noise from datasheet 
-   
-//   set_interrupt();   // Erforderlich. Durch diese Funktion die einzelnen Interrupts angeschaltet werden
-   
+   calibration();     // Accelerometers and Gyros bias calibration   
    
    /*******************
    * PID Initialization
@@ -236,7 +236,7 @@ void setup(){
    Serial.flush();
    
    // Jetzt zeige durch das Led-Licht, dass das ausgeführte Kalibrieren zum Ende gekommen ist
-   
+     
    for(int i = 0; i < 3; i++){
      digitalWrite(ledCalibration, HIGH);
      delay(100);
@@ -256,7 +256,7 @@ void loop(){
     digitalFilter();
 
     kalmanRoutine();
-    
+       
     task = 1;
     
 
@@ -295,7 +295,7 @@ void loop(){
     switch(task){
       case 1:
        digitalFilter();
-           
+               
        rollAngle = ToDeg(roll.getAngle());
        pitchAngle = ToDeg(pitch.getAngle());
        task++;
@@ -303,14 +303,14 @@ void loop(){
        
       case 2:
        digitalFilter();
-       
+
        read_radio();
        task++;
        break;
        
       case 3:
        digitalFilter();
-       
+    
        servo();    // Function to calculate the correct output to be transmitted to the PIC
        task++;
        break;
