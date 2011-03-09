@@ -42,7 +42,7 @@
 #include <Kalman2.h>
 #include <Servo.h>
 #include <PID_Beta6.h>
-#include <define_AP6.h>
+#include "define_AP6.h"
 
 #define ToDeg(x) (x*57.2957795131)  // * 180/pi
 
@@ -146,9 +146,7 @@ const int rudderServoPin = 11;
 /******************************************************
 * Definition von Variablen, die den Autopilot ansteuern
 ******************************************************/
-char autopilot = 0;   // 0 => Autopilot Ausgeschaltet, 1 => Autopilot Eingeschaltet
-char countAutoOn = 0;
-char countAutoOff = 0;
+char task = 1;
 
 /***************************
 * Output chars and variables
@@ -216,7 +214,7 @@ void setup(){
    pitch.init(0.5, 0.2);   // Pass to the the kalman filter the value of the noise from datasheet
    roll.init(0.5, 0.2);   // Pass to the the kalman filter the value of the noise from datasheet 
    
-   set_interrupt();   // Erforderlich. Durch diese Funktion die einzelnen Interrupts angeschaltet werden
+//   set_interrupt();   // Erforderlich. Durch diese Funktion die einzelnen Interrupts angeschaltet werden
    
    
    /*******************
@@ -257,26 +255,10 @@ void loop(){
 
     digitalFilter();
 
-    read_radio();
+    kalmanRoutine();
     
-    /*****************************
-    * KALMAN Verfahren
-    *****************************/
-    pitch.correction(gyro_angle(PitchOut, biasPitch), accel_angle(Xout, biasX, Zout, biasZ));
-    roll.correction(gyro_angle(RollOut, biasRoll), accel_angle(Yout, biasY, Zout, biasZ));
+    task = 1;
     
-    pitch.prediction(gyro_angle(PitchOut, biasPitch));
-    roll.prediction(gyro_angle(RollOut, biasRoll));
-    
-    
-    /*********************************
-    * PID calculation and routines
-    *****************************/
-    rollAngle = ToDeg(roll.getAngle());
-    pitchAngle = ToDeg(pitch.getAngle());
-    
-    servo();    // Function to calculate the correct output to be transmitted to the PIC
-
 
 #if PROCESSING == 1
 
@@ -310,7 +292,33 @@ void loop(){
   if(((millis() - timeElapsedFastLoop) > 4)){
     timeElapsedFastLoop = millis();
 
-    digitalFilter();
+    switch(task){
+      case 1:
+       digitalFilter();
+           
+       rollAngle = ToDeg(roll.getAngle());
+       pitchAngle = ToDeg(pitch.getAngle());
+       task++;
+       break;
+       
+      case 2:
+       digitalFilter();
+       
+       read_radio();
+       task++;
+       break;
+       
+      case 3:
+       digitalFilter();
+       
+       servo();    // Function to calculate the correct output to be transmitted to the PIC
+       task++;
+       break;
+    
+      default:
+       break;
+       
+    }
 
   }
     
@@ -326,6 +334,19 @@ void set_interrupt(void){
    PCMSK2 = 0;                 // Disable interrupts on overa single port
    PCMSK2 |= ((1 << PCINT18)); // At the moment only PD2 enabled
    PCICR |= (1 << PCIE2);      // Enabled interrupts on PCINT23-16
+
+}
+
+void kalmanRoutine(void){
+  
+    /*****************************
+    * KALMAN Verfahren
+    *****************************/
+    pitch.correction(gyro_angle(PitchOut, biasPitch), accel_angle(Xout, biasX, Zout, biasZ));
+    roll.correction(gyro_angle(RollOut, biasRoll), accel_angle(Yout, biasY, Zout, biasZ));
+    
+    pitch.prediction(gyro_angle(PitchOut, biasPitch));
+    roll.prediction(gyro_angle(RollOut, biasRoll));
 
 }
 

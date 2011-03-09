@@ -171,6 +171,10 @@ ISR(PCINT2_vect){
         
         aileronSignalDiff = cnt - aileronSignalLength;
         
+        elevatorSignalLength = cnt;
+        
+        FLAG_elv = 1;
+        
         FLAG_ail = 0;  // No receiving for the moment (for this channel)...
 
         CH = 2;    // Listen to CH2
@@ -184,12 +188,8 @@ ISR(PCINT2_vect){
 
     case 2:
      // CH2 is selected Elevator value to be measured
-      if(((PIND & (1 << PIND3)) && (!FLAG_elv))){   // PD4 as Input pin right now...
+      if((PIND & (1 << PIND3))){   // PD4 as Input pin right now...
 
-        elevatorSignalLength = cnt;
-        
-        FLAG_elv = 1;
-        
         break;
       }
      
@@ -197,6 +197,10 @@ ISR(PCINT2_vect){
         
         elevatorSignalDiff = cnt - elevatorSignalLength;
 
+        throttleSignalLength = cnt;
+                
+        FLAG_thr = 1;
+        
         FLAG_elv = 0;  // No receiving for the moment...
 
         CH = 3;    // Listen to CH3
@@ -210,11 +214,7 @@ ISR(PCINT2_vect){
 
     case 3:
       // CH3 is selected Throttle value to be measured
-      if(((PIND & (1 << PIND4)) && (!FLAG_thr))){   // PD3 as Input pin right now...
-
-        throttleSignalLength = cnt;
-        
-        FLAG_thr = 1;
+      if((PIND & (1 << PIND4))){   // PD3 as Input pin right now...
         
         break;
       }
@@ -222,6 +222,10 @@ ISR(PCINT2_vect){
       if(FLAG_thr){
         
         throttleSignalDiff = cnt - throttleSignalLength;
+        
+        rudderSignalLength = cnt;
+        
+        FLAG_rud = 1;
         
         FLAG_thr = 0;  // No receiving for the moment...
 
@@ -237,18 +241,18 @@ ISR(PCINT2_vect){
 
     case 4:
       // CH4 is selected Rudder value to be measured
-      if(((PIND & (1 << PIND5)) && (!FLAG_rud))){   // PD5 as Input pin right now...
+      if((PIND & (1 << PIND5))){   // PD5 as Input pin right now...
 
-        rudderSignalLength = cnt;
-        
-        FLAG_rud = 1;
-        
         break;
       }
      
       if(FLAG_rud){
         
         rudderSignalDiff = cnt - rudderSignalLength;
+              
+        autopilotSignalLength = cnt;
+        
+        FLAG_aut = 1;
         
         FLAG_rud = 0;  // No receiving for the moment...
 
@@ -265,11 +269,7 @@ ISR(PCINT2_vect){
 
     case 5:
       // CH5 is selected AutoPilot value to be measured
-      if(((PIND & (1 << PIND6)) && (!FLAG_aut))){   // PD6 as Input pin right now...
-      
-        autopilotSignalLength = cnt;
-        
-        FLAG_aut = 1;
+      if((PIND & (1 << PIND6))){   // PD6 as Input pin right now...
         
         break;
       }
