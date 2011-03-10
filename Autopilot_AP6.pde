@@ -187,8 +187,23 @@ void setup(){
    set_interrupt();   // Erforderlich. Durch diese Funktion die einzelnen Interrupts angeschaltet werden
    
    //************************************************************//
-   digitalWrite(ledCalibration, HIGH); // Led on, before the end of the cycle the aircraft must be parallel with the ground to calibrate the sensor                          // 10 sec since now....
+   digitalWrite(ledCalibration, HIGH); // Led on, before the end of the cycle the aircraft must be parallel with the ground to calibrate the sensor
+   
+   // ESC muss NICHT gearmed werden.... der Regler ist intelligent genüg
+   #if ESC_ARM == 0
+   
+   delay(5000);
      
+     for(int j = 0; j < 250; j++){
+       read_radio();
+       delay(20);
+     }
+     
+   #endif
+     
+   // ESC muss gearmed werden...
+   #if ESC_ARM == 1
+   
    delay(6000);
      
      for(int j = 0; j < 50; j++){
@@ -202,7 +217,7 @@ void setup(){
        delay(20);
      }
      
-     for(int j = 0; j < 1; j++){
+     for(int j = 0; j < 50; j++){
        throttleServo.writeMicroseconds(maxPulseServo);
        delay(20);
      }
@@ -211,7 +226,8 @@ void setup(){
        delay(20);
      }
 
-
+   #endif
+   
    digitalWrite(ledCalibration, LOW);
    //************************************************************//
    
@@ -336,6 +352,7 @@ void set_interrupt(void){
    PCICR |= (1 << PCIE2);      // Enabled interrupts on PCINT23-16
 
 }
+
 
 void kalmanRoutine(void){
   

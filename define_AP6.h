@@ -7,7 +7,9 @@
 #define CALIBRATION 0
 #define DEBUGLEVEL 0
 #define RADIO_TYPE 1  // 0 => Die Empfängers Outputs sind parallel zueinander: zB: Futaba
-                       // 1 => Die Empfängers Outputs überliegen sich nicht, sind nacheinander: zB: 2.4 GHz
+                      // 1 => Die Empfängers Outputs überliegen sich nicht, sind nacheinander: zB: 2.4 GHz
+#define ESC_ARM 0     // 0 Der Regler wird nicht gearmt
+                      // 1 Der Regler wird gearmt
 
 #define BAUDRATE 115200
 
