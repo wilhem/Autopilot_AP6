@@ -175,6 +175,7 @@ void setup(){
    aileronServo.attach(aileronServoPin);
    elevatorServo.attach(elevatorServoPin);
    throttleServo.attach(throttleServoPin);
+   throttleServo.writeMicroseconds(lengthPulseMin-lengthPulseMin);
    rudderServo.attach(rudderServoPin);
 
    pinMode(ledCalibration, OUTPUT);    // Led on digital pin 13 is used as indicator to show that the calibration is on the way...
@@ -239,12 +240,12 @@ void setup(){
    
    pitchPID.SetMode(MANUAL);
    pitchPID.SetInputLimits(-90, 90);
-   pitchPID.SetOutputLimits(-90, 90);
+   pitchPID.SetOutputLimits(-45, 45);
    pitchPID.SetSampleTime(20);
  
    rollPID.SetMode(MANUAL);
    rollPID.SetInputLimits(-90, 90);
-   rollPID.SetOutputLimits(-90, 90);
+   rollPID.SetOutputLimits(-45, 45);
    rollPID.SetSampleTime(20);
    
 
