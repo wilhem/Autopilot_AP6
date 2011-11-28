@@ -28,7 +28,7 @@
 #define CH_RUD 3
 #define CH_LDG 4
 
-#define Kp_pitch -3.0  // Pitch verstärker Proportional
+#define Kp_pitch 3.0 //-3.0  // Pitch verstärker Proportional
 #define Ki_pitch 3.0   // Pitch verstärker Integral
 #define Kd_pitch 0.15  // Pitch verstärker Derivative
 #define Kp_roll 2.0

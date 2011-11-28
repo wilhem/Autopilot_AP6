@@ -41,7 +41,7 @@
 #include <EEPROM.h>
 #include <Kalman2.h>
 #include <Servo.h>
-#include <PID_Beta6.h>
+#include <PID_v1.h>
 #include "define_AP6.h"
 
 #define ToDeg(x) (x*57.2957795131)  // * 180/pi
@@ -124,8 +124,8 @@ Kalman2 pitch, roll;
 /****************************
 * Define the PID
 ****************************/
-PID pitchPID(&pitchAngle, &outputElevator, &pitchSetPoint, Kp_pitch, Ki_pitch, Kd_pitch);
-PID rollPID(&rollAngle, &outputAileron, &rollSetPoint, Kp_roll, Ki_roll, Kd_roll);
+PID pitchPID(&pitchAngle, &outputElevator, &pitchSetPoint, Kp_pitch, Ki_pitch, Kd_pitch, REVERSE);
+PID rollPID(&rollAngle, &outputAileron, &rollSetPoint, Kp_roll, Ki_roll, Kd_roll, DIRECT);
 
 
 /********************************************************
@@ -193,6 +193,10 @@ void setup(){
    // ESC muss NICHT gearmed werden.... der Regler ist intelligent genüg
    #if ESC_ARM == 0
    
+   aileronServo.writeMicroseconds((maxPulseServo + minPulseServo)/2);
+   elevatorServo.writeMicroseconds((maxPulseServo + minPulseServo)/2);
+   rudderServo.writeMicroseconds((maxPulseServo + minPulseServo)/2);
+   
    delay(5000);
      
      for(int j = 0; j < 250; j++){
@@ -239,12 +243,12 @@ void setup(){
    *******************/
    
    pitchPID.SetMode(MANUAL);
-   pitchPID.SetInputLimits(-90, 90);
+//   pitchPID.SetInputLimits(-90, 90);
    pitchPID.SetOutputLimits(-45, 45);
    pitchPID.SetSampleTime(20);
  
    rollPID.SetMode(MANUAL);
-   rollPID.SetInputLimits(-90, 90);
+//   rollPID.SetInputLimits(-90, 90);
    rollPID.SetOutputLimits(-45, 45);
    rollPID.SetSampleTime(20);
    
@@ -265,7 +269,7 @@ void setup(){
 
 
 void loop(){
-
+  
   if(((millis() - timeElapsedSlowLoop) > 19)){
     timeElapsedSlowLoop = millis();
     timeElapsedFastLoop = timeElapsedSlowLoop;
@@ -358,7 +362,7 @@ void set_interrupt(void){
 void kalmanRoutine(void){
   
     /*****************************
-    * KALMAN Verfahren
+    * KALMAN 
     *****************************/
     pitch.correction(gyro_angle(PitchOut, biasPitch), accel_angle(Xout, biasX, Zout, biasZ));
     roll.correction(gyro_angle(RollOut, biasRoll), accel_angle(Yout, biasY, Zout, biasZ));

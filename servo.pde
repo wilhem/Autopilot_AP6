@@ -10,10 +10,11 @@ void servo(void){
       aileronServo.writeMicroseconds(servoOut[CH_AIL]);
     }
     
+
     if(pitchPID.GetMode()){
       pitchSetPoint = (int)map(radioIn[CH_ELV], lengthPulseMin, lengthPulseMax, 45, -45);   // Reverse because it has been reversed via radio (due to servos position)
       pitchPID.Compute();
-      elevatorServo.write(((int)outputElevator + 90));
+      elevatorServo.write(((int)outputElevator + 90));                
     } else {
       servoOut[CH_ELV] = constrain(radioIn[CH_ELV], minPulseServo, maxPulseServo);
       elevatorServo.writeMicroseconds(servoOut[CH_ELV]);
@@ -30,7 +31,7 @@ void servo(void){
 
    if(radioIn[CH_LDG] < 1400){
      
-     autoPilot = 1;   
+     autoPilot = 1;
       
    } else {
      
@@ -39,14 +40,14 @@ void servo(void){
    }
 
    if(autoPilot != pitchPID.GetMode()){
-        (autoPilot == 1)?pitchPID.SetMode(AUTO):pitchPID.SetMode(MANUAL);
+        (autoPilot == 1)?pitchPID.SetMode(AUTOMATIC):pitchPID.SetMode(MANUAL);
    }
     
    if(autoPilot != rollPID.GetMode()){
      
-        (autoPilot == 1)?rollPID.SetMode(AUTO):rollPID.SetMode(MANUAL);
+        (autoPilot == 1)?rollPID.SetMode(AUTOMATIC):rollPID.SetMode(MANUAL);
            
    }
-  
+
 #endif
 }

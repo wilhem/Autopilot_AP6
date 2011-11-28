@@ -13,7 +13,7 @@ void calibration(void){
   
 #if CALIBRATION == 0
 
-  // Those are default values from variuos experiments it should be made a calibration for every restart
+// Those are default values from variuos experiments it should be made a calibration for every restart
 //  biasX = EEPROMReadInt(0);
 //  biasY = EEPROMReadInt(2);
 //  biasGyro = EEPROMReadInt(4);
@@ -22,8 +22,8 @@ void calibration(void){
   biasY = bias(accYoutPin);  // Letzter Wert: 516;
   biasZ = 607;
   biasPitch = bias(gyroPitchOutPin);  // 382;
-  biasRoll = bias(gyroRollOutPin);  // 381;
-  biasYaw = bias(gyroYawOutPin);  // 383;
+  biasRoll = bias(gyroRollOutPin);    // 381;
+  biasYaw = bias(gyroYawOutPin);      // 383;
   
 
 #endif
